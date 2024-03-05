@@ -1,0 +1,62 @@
+** {
+    margin:0;
+    padding: 0;
+}
+
+.archiveHover {
+    opacity: 10%;
+}
+
+/* inspired by Nineball */
+.vanillaArchive {
+    justify-content: center;
+
+    padding: 10px;
+    background-color: gray;
+    text-align: center;
+
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    border-radius: 1rem;
+    border-color: black;
+    border-style:ridge;
+}
+
+.vanillaArchive:hover {
+    border-color: rgb(60, 0, 0);
+    filter:drop-shadow(5px);
+}
+
+.vanillaArchive.isSelected {
+    background-color: rgb(131, 13, 13);
+    border-color: white;
+}
+
+/* inspired by STEEL HAZE (not ORTUS ) */
+.moddedArchive {
+    justify-content: center;
+
+    padding: 10px;
+    background-color: rgb(26, 26, 59);
+    text-align: center;
+
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    border-radius: 1rem;
+    border-color: black;
+    border-style:ridge;
+
+}
+
+/* Switch to STEEL HAZE ORTUS color scheme */
+.moddedArchive.isSelected { 
+    background-color: rgb(80, 68, 68);
+}
+
+.contextOption {
+    background-color: rgb(112, 15, 15);
+}

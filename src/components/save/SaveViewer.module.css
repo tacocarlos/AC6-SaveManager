@@ -1,0 +1,52 @@
+.btnBanner {
+    background-color: blueviolet;
+}
+
+.selectedSave {
+    background-color: forestgreen;
+}
+
+.imgBackground {
+    position:relative;
+
+    z-index: 1;
+    display: flex;
+    background-image: url('../../assets/ac6-saveViewer.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter:blur(1px) brightness(50%);
+    height: 100%;
+}
+
+.saveImage {
+    position: relative;
+    content: "";
+    /* z-index: 1000; */
+    display: flex;
+    /* background-image: url('../../assets/ac6-saveViewer.png'); */
+    background-image: url('../../assets/ac6-saveViewerBRBL.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+.saveList {
+    display: flexbox;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.searchBar {
+    display: flex;
+    padding: 10px;
+    background-color: rgb(44, 43, 43);
+}
+
+.searchLabel {
+    margin-right: 5px;
+}
+
+.searchInput {
+    min-width: 10em;
+    width: 25%
+}

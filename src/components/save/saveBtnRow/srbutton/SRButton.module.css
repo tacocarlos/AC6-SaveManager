@@ -1,0 +1,15 @@
+.btn {
+    margin: 5px;
+    margin-right: 10px;
+    background-color: rgb(167, 167, 167);
+    color: black;
+    font-weight: bold;
+}
+
+.activeBtn {
+    opacity: 100;
+}
+
+.inactiveBtn {
+    opacity: 50%;
+}

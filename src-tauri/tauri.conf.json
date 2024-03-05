@@ -1,0 +1,66 @@
+{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "ArmoredCore6-SaveManager",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "dialog" : {
+        "message": true,
+        "ask" : true,
+        "open" : true,
+        "save" : true,
+        "confirm": true
+      },
+      
+      "path": {
+        "all": true
+      },
+      "fs": {
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true,
+        "scope": ["**"]
+      },
+      "os" : {
+        "all": true
+      },
+      "process": {
+        "exit": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "ArmoredCore6-SaveManager",
+      "icon": [
+        "icons/AC6 Save Manager.ico"
+      ]
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "AC6 Save Manager",
+        "width": 1200,
+        "height": 800
+      }
+    ]
+  }
+}

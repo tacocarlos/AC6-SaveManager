@@ -1,0 +1,22 @@
+.nameLabel {
+    font-size: large;
+}
+
+.notesLabel {
+    font-size: large;
+}
+
+.nameInput {
+    padding: 7px;
+    margin-left: 5px;
+    width: 350px;
+}
+
+.notesContainer {
+    width: 7
+}
+
+.notesArea {
+    width: 100%;
+    height: 150px;
+}

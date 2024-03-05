@@ -1,0 +1,15 @@
+.archiveContainer {
+    width: 100%;
+    overflow-y: auto;
+
+    background-color: rgb(44, 43, 43);
+}
+
+.archiveList {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    list-style-type: none;
+
+    align-content: space-around;
+}

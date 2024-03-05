@@ -1,0 +1,77 @@
+.modalStyle {
+    position: relative;
+    top: 50%;
+
+    padding: 5%;
+    /* padding-left: 5%;
+    padding-right: 5%; */
+
+    margin: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background-color: gray;
+}
+
+.titleHeader {
+    position: relative;
+    left: 0;
+    text-align: left;
+}
+
+.itemWrapper {
+    border: solid rgb(125, 207, 255);
+    border-radius: 1em;
+    padding: 5px;
+    margin-bottom: 10px;
+    font-weight:300;
+    color: rgb(255, 255, 255);
+}
+
+.sectionWrapper {
+    border: solid black;
+    border-radius: 1em;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.archivePathListSection {
+    column-gap: 15px;
+}
+
+.execSection {
+   border-color: rgb(0, 0, 0);
+}
+
+.execPath {
+    display: block;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.archivePathList {
+    list-style-type: none;
+    max-height: 175px;
+    overflow-y: auto;
+    align-content: space-between;
+}
+
+.archivePathHeader {
+    margin-bottom: 15px;
+}
+
+.archivePathItem {      
+    display: flex;  
+    align-items: center;
+}
+
+.archivePath {
+    max-width: 80%;
+    overflow-x: auto;
+    margin-right: 10px;
+}
+
+.removeArchivePathButton {
+    background-color: rgb(177, 42, 42);
+    margin-left: 10;
+    justify-self: flex-end;
+}

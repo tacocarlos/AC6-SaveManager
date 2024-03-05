@@ -1,0 +1,28 @@
+[package]
+name = "armoredcore6-savemanager"
+version = "0.0.0"
+description = "Armored Core 6 Save Manager"
+authors = ["you"]
+license = ""
+repository = ""
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+tauri = { version = "1.5", features = [ "process-exit", "dialog-confirm", "os-all", "fs-rename-file", "fs-copy-file", "fs-write-file", "fs-remove-file", "fs-read-dir", "fs-exists", "fs-create-dir", "fs-remove-dir", "fs-read-file", "path-all", "dialog-open", "dialog-save", "dialog-ask", "dialog-message"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+once_cell = "1.19.0"
+dirs = "5.0.1"
+log = "0.4.20"
+simple_logger = "4.3.3"
+winreg = "0.52.0"
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]

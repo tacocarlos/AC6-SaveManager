@@ -1,0 +1,32 @@
+.appBtnRow {
+    padding: 5px;
+    gap: 10px;
+    display: inline-flex;
+    overflow-wrap: break-word;
+    background-color: rgb(66, 66, 66);
+    width: 100%;
+
+}
+
+.rightAligned {
+    display: flex;
+    width: 75%;
+    justify-content: start;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+.disabled { 
+    opacity: 50%;
+}
+
+.launchBtn {
+    background-color: rgb(8, 78, 8);
+}
+
+.leftAligned {
+    position: fixed;
+    right: 0;
+}

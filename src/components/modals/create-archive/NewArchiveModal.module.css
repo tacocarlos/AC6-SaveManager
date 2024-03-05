@@ -1,0 +1,25 @@
+.pathLabel {
+    font-size: large;
+}
+
+.pathSelect {
+    width: fit-content;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 3px;
+    margin-left: 5px;
+    font-size: medium;
+    background-color: rgb(44, 44, 44);
+    color: whitesmoke;
+    border-radius: 0.5rem;
+}
+
+.archiveLabel {
+    font-size: large;
+}
+
+.archiveNameInput {
+    padding: 7px;
+    margin-left: 5px;
+    width: 350px;
+}
