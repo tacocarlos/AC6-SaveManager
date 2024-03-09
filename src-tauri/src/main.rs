@@ -50,12 +50,13 @@ fn trace_msg(msg: &str) -> () {
 #[tauri::command]
 fn launch_app(app_path: &str) -> bool {
     log::info!("[RUST] launching game");
-    let result = Command::new(app_path).spawn();
+    let dir = Path::new(app_path);
+    let result = Command::new(app_path).current_dir(dir.parent().unwrap()).spawn();
     if result.is_ok() {
         log::info!("child process ok");
         return true;
     } else {
-        log::info!("{}", result.err().unwrap());
+        log::error!("{}", result.err().unwrap());
         return false;
     }
 }
