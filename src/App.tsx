@@ -37,7 +37,7 @@ export function App() {
   }, [settings.archive_paths]);
 
   return (
-    <div className={appStyles.appCore}>
+    <div className={appStyles.app}>
       <AppHeader/>      
       <ButtonBar/>
       <div className={appStyles.contentGridWrapper}>

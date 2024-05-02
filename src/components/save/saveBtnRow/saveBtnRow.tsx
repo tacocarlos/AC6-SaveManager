@@ -1,17 +1,20 @@
 import { useSelectedArchive, useSelectedSave } from "@context/SelectedContext";
 import styles from "./saveBtnRow.module.css";
 import { SRButton } from "./srbutton/SRButton";
-import { useManager } from "@src/context/ArchiveContext";
+import { useManager, useManagerUpdate } from "@src/context/ArchiveContext";
 import { useSetNewSaveModalType, useShowNewSaveModal } from "@src/context/modal-context/NewSaveContext";
 import { SaveDataFile } from "@src/data/save-data/SaveDataFile";
 import { useSettings } from "@context/SettingsContext";
 import { Logger } from "@src/util";
 import { dialog } from "@tauri-apps/api";
+import { SaveData } from "@src/data/save-data/save";
+import { FolderArchive } from "@src/data/archive/folder_archive";
 
 export function SaveRowButtons() {
     const selectedSave = useSelectedSave();
     const archiveID = useSelectedArchive();
     const manager = useManager();
+    const setMager = useManagerUpdate();
     const archive = manager.getArchive(archiveID);
     const config = useSettings();
 
@@ -24,17 +27,42 @@ export function SaveRowButtons() {
         showNewSaveModal();
     }
 
-    // Since game asks for pilot name on file creation, don't think I can really provide a blank save
-    
-    // function showBlank() {
-    //     setNewSaveModalType('blank');
-    //     closeNewSaveModal();
-    // }
+    async function updateSave() {
+        if(archive === undefined || selectedSave === undefined || !archive.hasSave(selectedSave)) {
+            return;
+        }
+
+        if(await dialog.confirm("Are you sure you want to update the backed up save?", {title: "Update Save Backup", type: "warning"}) === false) {
+            return;
+        }
+
+        const save = archive.getSave(selectedSave) as SaveData;
+        save.writeSave();
+    }
+
+    async function deleteSave() {
+        if(archive === undefined || selectedSave === undefined || !archive.hasSave(selectedSave)) {
+            return;
+        }
+        
+        const save = archive.getSave(selectedSave) as SaveData;
+
+        if(await dialog.confirm(`Are you sure you want to delete ${save.getMetadata().getName()}?`) === false) {
+            return;
+        }
+        (archive as FolderArchive).deleteSave(save.getMetadata().getID());
+
+        setMager(manager.deepClone());
+    }
 
     async function installSave() {
         const s = archive?.getSave(selectedSave ?? "");
         if(selectedSave === undefined || s === undefined) {            
             Logger.error("Attempted to install an unselected save.");
+            return;
+        }
+
+        if(await dialog.confirm("Overwrite installed save?", {title: "Install Save", type: "warning"}) === false) {
             return;
         }
 
@@ -51,12 +79,15 @@ export function SaveRowButtons() {
         }
     }
 
-    // todo: add a way to reliably get a 'blank' save file (just created)
+    const haveArchive = archiveID !== undefined;
+    const haveSave = selectedSave !== undefined;
+
     return (
         <div className={`${styles.btnBanner}`}>
-            <SRButton action={showBackup} active={archiveID !== undefined}><span>Backup Installed Save</span></SRButton>
-            {/* <SRButton action={showBlank} active={activeStatus}><span>Create Blank Save</span></SRButton> */}
-            <SRButton action={installSave} active={selectedSave !== undefined}><span>Install Save</span></SRButton>
+            <SRButton action={showBackup} active={haveArchive}><span>Backup Installed Save</span></SRButton>
+            <SRButton action={installSave} active={haveSave}><span>Install Save</span></SRButton>
+            <SRButton action={updateSave} active={haveSave}><span>Update Save</span></SRButton>
+            <SRButton action={deleteSave} active={haveSave}><span>Delete Save</span></SRButton>
         </div>
     );
 }

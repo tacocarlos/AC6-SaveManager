@@ -100,17 +100,16 @@ export class AppConfig {
     }
 
     // Attempts to find the save location, usually in %APPDATA%\ArmoredCore6\<user-id>\
-    // if many, then can't really tell which; return number of discovered save files in promise
+    // if many, then can't really tell which; return all of them and just let the callee pick one
     async findSaveLocation(): Promise<string[]> {
         const rootDir = AC6ROAMING;
-        let savePaths: string[] = [];
+        const savePaths: string[] = [];
 
         if(!await isDir(rootDir)) {
             return Promise.reject(savePaths);
         }
 
         // if only one user, then we'll at most find a single save path
-        
         for(const rootEntry of await readDir(rootDir)) {
             if(!await isDir(rootEntry.path)) {
                 continue;
@@ -185,7 +184,7 @@ export class AppConfig {
     }
 
     static async init(): Promise<AppConfig> {
-        Logger.info("Starting config init...");
+        Logger.trace("Starting config init...");
 
         await AppConfig.init_fs();
 
@@ -200,7 +199,7 @@ export class AppConfig {
         const content: string = await readTextFile(AppConfig.configFilePath) as string;
         let data = JSON.parse(content);
 
-        Logger.info("verifying config object...");
+        Logger.trace("verifying config object...");
         return AppConfig.verifyObject(data);
     }
 

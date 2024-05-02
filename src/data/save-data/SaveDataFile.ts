@@ -2,13 +2,14 @@ import { Logger, copy, isFile } from "@util";
 import { AppConfig } from "../AppConfig";
 import { SaveData, SaveMetadata } from "./save";
 
-import { exists, removeFile, writeTextFile } from "@tauri-apps/api/fs"
+import { exists, removeFile, writeFile, writeTextFile } from "@tauri-apps/api/fs"
 
-import { ARCHIVE_METADATA_NAME, TEMP_SAVE_LOC } from "../constants/constant";
+import { ARCHIVE_METADATA_NAME, SAVE_NAME, TEMP_SAVE_LOC } from "../constants/constant";
 import { message } from "@tauri-apps/api/dialog";
 import { ItemID } from "../ItemID";
 import { SaveDataFileMetadata } from "./SaveDataFileMetadata";
-import { dirname, join } from "@tauri-apps/api/path";
+import { basename, dirname, join } from "@tauri-apps/api/path";
+import { dialog } from "@tauri-apps/api";
 
 export class SaveDataFile implements SaveData {
     metadata: SaveDataFileMetadata;
@@ -55,38 +56,49 @@ export class SaveDataFile implements SaveData {
         return Promise.resolve(await isFile(this.savePath));
     }
 
+    /** 
+     * @deprecated 
+     */
     private async backup_temp(config: AppConfig) {
-        const sourceExists = await exists(config.get_save_path());
+        return this.backupTemp(config.get_save_path());
+    }
+
+    private async backupTemp(sourcePath: string) {
+        const sourceExists = await exists(sourcePath);
         if(!sourceExists) {
             return Promise.reject();
         }
 
-        const res = await copy(config.get_save_path(), TEMP_SAVE_LOC, true);
-        if(res === false) {
+        if(!await copy(sourcePath, TEMP_SAVE_LOC, true)) {
             return Promise.reject();
         }
 
         return Promise.resolve();
+
     }
 
+    /**
+     * @deprecated
+     */
     private async restore_temp(config: AppConfig) {
-        const dest = config.get_save_path();
-        const res = await copy(TEMP_SAVE_LOC, dest, true);
-        if(res === false) {
+        return this.restoreTemp(config.get_save_path());
+    }
+
+    private async restoreTemp(destPath: string) {
+        if(!await copy(TEMP_SAVE_LOC, destPath, true)) {
             return Promise.reject();
         }
 
         return Promise.resolve();
     }
 
-    private async delete_temp() {
-        const tempExists = await exists(TEMP_SAVE_LOC);
-        if(tempExists) {
-            return removeFile(TEMP_SAVE_LOC);
-        } else {
-            return Promise.resolve();
+    // Don't really care if we successfully delete the temp file -- will overwrite it next time
+    private async deleteTemp() {
+        if(await exists(TEMP_SAVE_LOC)) {
+            await removeFile(TEMP_SAVE_LOC);
         }
 
+        return Promise.resolve();
     }
 
     // sets `this` as the active save file
@@ -135,7 +147,7 @@ export class SaveDataFile implements SaveData {
         }
 
         if(originalSaveExists) {
-            this.delete_temp().catch(); // don't really care if deleting the temp save worked or not (will be overwritten next time)
+            this.deleteTemp().catch(); // don't really care if deleting the temp save worked or not (will be overwritten next time)
         }
 
         return Promise.resolve();
@@ -153,7 +165,6 @@ export class SaveDataFile implements SaveData {
         return Promise.resolve();
     }
 
-    // given a directory
     async writeSave(): Promise<void> {
         const mdPath = this.metadataPath;
         if(mdPath === undefined) {
@@ -172,5 +183,40 @@ export class SaveDataFile implements SaveData {
         } catch(reason) {
             return Promise.reject();
         }
+    }
+
+    async updateSave(config: AppConfig, sourceDataFile?: string): Promise<void> {
+        if(sourceDataFile === undefined) {
+            if(!config.has_save_path()) {
+                return Promise.reject();
+            }
+
+            sourceDataFile = config.get_save_path();
+        }
+
+        if(await basename(sourceDataFile) !== SAVE_NAME || await !isFile(sourceDataFile)) {
+            return Promise.reject();
+        }
+
+        /** Steps for updating a save:
+         *      1) backup this current save
+         *      2) overwrite save with the source
+         *          a) If fail, revert save
+         */
+        this.backupTemp(this.getFilePath());
+        await copy(sourceDataFile, this.getFilePath()).then(() => {
+            return Promise.resolve(); // successfully overwrote the save
+        }).catch(async () => {
+            // failed to overwrite the save
+            return await this.restoreTemp(this.getFilePath());
+        }).catch(() => {
+            // failed to restore temp
+            return dialog.message(`Save Data Failure. Could not restore the save data from temp.\n${TEMP_SAVE_LOC}`);
+        });
+    }
+
+    async deleteSave(): Promise<void> {
+        await removeFile(this.getFilePath());
+        await removeFile(await this.getMetadataPath());
     }
 }

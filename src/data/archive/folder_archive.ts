@@ -425,7 +425,7 @@ export class FolderArchive implements Archive {
         return Array.from(this.saves.values());
     }
 
-    getSave(id: ItemID): SaveData | undefined {
+    getSave(id: ItemID): SaveDataFile | undefined {
         if(!this.containsSave(id)) return undefined;
         return this.saves.get(id);
     }
@@ -433,5 +433,23 @@ export class FolderArchive implements Archive {
     getSavesByName(name: string): SaveData[] {
         Logger.info("Not going to search yet: " + name);
         return [];
+    }
+
+    removeSave(save: SaveDataFile): boolean {
+        return this.saves.delete(save.getSaveID()) && this.saveIDs.delete(save.getSaveID());
+    }
+
+    async deleteSave(saveID?: ItemID): Promise<void> {
+        if(saveID === undefined) {
+            return Promise.reject();
+        }
+
+        const save = this.getSave(saveID);
+        if(save === undefined) {
+            return Promise.reject();
+        }
+
+        await save.deleteSave();
+        this.removeSave(save);
     }
 }
