@@ -5,7 +5,6 @@
     overflow-wrap: break-word;
     background-color: rgb(66, 66, 66);
     width: 100%;
-
 }
 
 .rightAligned {
@@ -18,7 +17,7 @@
     margin-right: 10px;
 }
 
-.disabled { 
+.disabled {
     opacity: 50%;
 }
 
