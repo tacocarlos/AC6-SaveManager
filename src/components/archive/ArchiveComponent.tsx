@@ -17,7 +17,7 @@ export default function ArchiveComponent(props: {
     const content = (
         <>
             <Button
-                className={`${ArchiveStyles.vanillaArchive} ${props.isSelected === true ? ArchiveStyles.isSelected : ''} hover:bg-maroon w-full px-4`}>
+                className={`${ArchiveStyles.vanillaArchive} ${props.isSelected === true ? ArchiveStyles.isSelected : ''} hover:bg-maroon w-52 px-1`}>
                 {props.archive.getArchiveName()}
             </Button>
         </>

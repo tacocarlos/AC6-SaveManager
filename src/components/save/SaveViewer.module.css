@@ -7,27 +7,27 @@
 }
 
 .imgBackground {
-    position:relative;
+    position: relative;
 
     z-index: 1;
     display: flex;
     background-image: url('../../assets/ac6-saveViewer.png');
     background-size: cover;
     background-repeat: no-repeat;
-    filter:blur(1px) brightness(50%);
+    filter: blur(1px) brightness(50%);
     height: 100%;
 }
 
 .saveImage {
-    position: relative;
-    content: "";
+    /* position: relative; */
+    /* content: ''; */
     /* z-index: 1000; */
     display: flex;
     /* background-image: url('../../assets/ac6-saveViewer.png'); */
     background-image: url('../../assets/ac6-saveViewerBRBL.png');
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100%;
+    /* height: 100%; */
 }
 
 .saveList {
@@ -48,5 +48,5 @@
 
 .searchInput {
     min-width: 10em;
-    width: 25%
+    width: 25%;
 }

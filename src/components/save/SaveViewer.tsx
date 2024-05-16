@@ -12,11 +12,15 @@ import SaveModal from '../modals/save-details/SaveModal';
 import { NewSaveModalProvider } from '@src/context/modal-context/NewSaveContext';
 import { SaveData } from '@src/data/save-data/save';
 import { Input } from '@ui/input';
+import { ScrollArea } from '@ui/scroll-area';
+import { Accordion } from '../ui/accordion';
+import { useToast } from '../ui/use-toast';
 
 export function SaveViewer() {
     const [query, setQuery] = useState('');
     const searchRef = useRef<HTMLInputElement>(null);
     const [saveModalShow, setSaveModalShow] = useState(false);
+
     const manager = useManager();
     const archiveID = useSelectedArchive();
     const selectedSave = useSelectedSave();
@@ -24,7 +28,10 @@ export function SaveViewer() {
     const archive = manager.getArchive(archiveID);
     const isEmpty = archive === undefined;
 
+    const save = archive?.getSave(selectedSave ?? '');
+
     let filteredSaves: SaveData[] = [];
+    const { toast } = useToast();
 
     if (archive !== undefined) {
         filteredSaves = archive.getSaves().filter((save) => {
@@ -49,7 +56,13 @@ export function SaveViewer() {
 
     // if the selected save is not in filtered saves, append it
     // Logger.debug(filteredSaves.join());
+    const modalToggle = () => {
+        toast({
+            description: 'modal toggle',
+        });
 
+        setSaveModalShow((prev) => !prev);
+    };
     const saveItems = filteredSaves.map((save) => {
         return (
             <li
@@ -58,7 +71,8 @@ export function SaveViewer() {
                 <SaveEntry
                     save={save}
                     isSelected={selectedSave === save.getMetadata().getID()}
-                    modalToggle={() => setSaveModalShow((prev) => !prev)}
+                    // modalToggle={() => setSaveModalShow((prev) => !prev)}
+                    modalToggle={modalToggle}
                 />
             </li>
         );
@@ -70,6 +84,11 @@ export function SaveViewer() {
             setQuery(searchRef.current.value);
         }
     }
+
+    const filteredSaveIDs = filteredSaves.map((s) => s.getMetadata().getID());
+
+    // TODO: implement a 'collapsible sync' so only one is open at a time.
+    // TODO: this is due to an accordion not really (but very close) to what I wanted for this component
 
     return (
         <div className="w-full">
@@ -86,9 +105,25 @@ export function SaveViewer() {
                     placeholder="Search by Save Name"
                     disabled={isEmpty}
                 />
+                {save !== undefined ? (
+                    <div className="ml-4 flex rounded-xl border px-4">
+                        <p className="self-center text-lg text-white">
+                            Selected Save: {save.getMetadata().getName()}
+                        </p>
+                        <p className="text-md self-center pl-4 text-muted">
+                            Last Updated:{' '}
+                            {save.getMetadata().getLMDate().toString()}
+                        </p>
+                    </div>
+                ) : null}
             </div>
-            <div className={saveStyles.saveImage}>
-                <ul className={saveStyles.saveList}>{saveItems}</ul>
+            <div className={`${saveStyles.saveImage}`}>
+                <ScrollArea className="bg-actualgray flex h-[calc(100vh-235px)] w-full flex-col gap-y-1 bg-opacity-30">
+                    {saveItems}
+                </ScrollArea>
+                {/* <div className="bg-actualgray flex h-[calc(100vh-200px)] w-full flex-col gap-y-2 bg-opacity-25">
+                    {saveItems}
+                </div> */}
             </div>
 
             <SaveModal

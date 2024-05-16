@@ -5,7 +5,7 @@ import { useManager } from '@context/ArchiveContext';
 import {
     useSelectedArchive,
     useSelectedArchiveUpdate,
-} from '../../../context/SelectedContext';
+} from '@context/SelectedContext';
 
 export default function ArchiveViewer() {
     const manager = useManager();
@@ -34,13 +34,7 @@ export default function ArchiveViewer() {
 
     return (
         <div>
-            <ul>{archiveContent}</ul>
-        </div>
-    );
-
-    return (
-        <div className={`${archiveStyles.archiveContainer}`}>
-            <ul className={`${archiveStyles.archiveList}`}>{archiveContent}</ul>
+            <ul className="flex flex-col items-center">{archiveContent}</ul>
         </div>
     );
 }

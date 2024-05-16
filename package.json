@@ -11,6 +11,9 @@
     "publish": ""
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-collapsible": "^1.0.3",
+    "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@szhsin/react-menu": "^4.1.0",
@@ -25,6 +28,8 @@
     "react-markdown": "^9.0.1",
     "react-modal": "^3.16.1",
     "rehype-katex": "^7.0.0",
+    "rehype-mathjax": "^6.0.0",
+    "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "remark-math": "^6.0.0",
     "tailwind-merge": "^2.3.0",

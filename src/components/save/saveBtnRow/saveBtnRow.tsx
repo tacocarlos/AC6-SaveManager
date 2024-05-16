@@ -8,7 +8,7 @@ import {
 } from '@src/context/modal-context/NewSaveContext';
 import { SaveDataFile } from '@src/data/save-data/SaveDataFile';
 import { useSettings } from '@context/SettingsContext';
-import { Logger } from '@src/util';
+import { Logger, openInExplorer } from '@src/util';
 import { dialog } from '@tauri-apps/api';
 import { SaveData } from '@src/data/save-data/save';
 import { FolderArchive } from '@src/data/archive/folder_archive';
@@ -105,6 +105,15 @@ export function SaveRowButtons() {
         }
     }
 
+    function openSave() {
+        const save = archive?.getSave(selectedSave ?? '');
+        if (save === undefined) {
+            return;
+        }
+        const filePath = (save as SaveDataFile).getFilePath();
+        openInExplorer(filePath);
+    }
+
     const haveArchive = archiveID !== undefined;
     const haveSave = selectedSave !== undefined;
 
@@ -121,6 +130,9 @@ export function SaveRowButtons() {
             </SRButton>
             <SRButton action={deleteSave} active={haveSave}>
                 <span>Delete Save</span>
+            </SRButton>
+            <SRButton action={openSave} active={haveSave}>
+                <span>Open Containing Save Folder</span>
             </SRButton>
         </div>
     );

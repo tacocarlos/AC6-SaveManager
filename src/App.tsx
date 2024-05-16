@@ -50,12 +50,15 @@ export function App() {
     }, [settings.archive_paths]);
 
     return (
-        <div className="flex h-screen flex-col">
+        <div className="flex h-screen flex-col overflow-y-hidden">
             <AppHeader />
             <ButtonBar />
-            <div className="flex h-full grid-cols-2 flex-row gap-2 bg-primary">
+            <div className=" grid h-[calc(100vh-120px)] grid-cols-[250px_calc(100vw-259px)] gap-2 bg-primary">
                 <ArchiveViewer />
-                <SaveViewer key={selectedArchive} />
+                {/* <div className="h-full w-full overflow-y-auto overflow-x-hidden"> */}
+                <div className="h-full w-full">
+                    <SaveViewer key={selectedArchive} />
+                </div>
             </div>
             <Toaster />
         </div>
