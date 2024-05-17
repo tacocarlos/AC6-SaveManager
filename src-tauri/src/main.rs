@@ -225,7 +225,7 @@ fn scan_dir_for_saves(path: &str) -> Vec<String> {
 #[tauri::command]
 fn open_in_explorer(path: &str) {
     Command::new("explorer")
-        .args(["/select,", path])
+        .args([path])
         .spawn()
         .unwrap();
     

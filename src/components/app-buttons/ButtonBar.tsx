@@ -12,7 +12,7 @@ import OpenArchiveButton from './OpenArchiveBtn';
 export function ButtonBar() {
     return (
         // <div className={`${barStyles.appBtnRow}`}>
-        <div className="flex space-x-5 bg-[rgb(44,43,43)] p-2">
+        <div className="flex h-screen space-x-5 bg-[rgb(44,43,43)] p-2">
             {/* <span className={barStyles.rightAligned}> */}
             <LoadArchiveButton />
             <NewArchiveModalProvider>

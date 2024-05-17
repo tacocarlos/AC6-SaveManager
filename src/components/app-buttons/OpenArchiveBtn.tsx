@@ -1,9 +1,9 @@
 import { useSelectedArchive } from '@src/context/SelectedContext';
 import barStyles from './ButtonBar.module.css';
 import { useManager } from '@src/context/ArchiveContext';
-import { openInExplorer } from '@src/util';
+import { Logger, openInExplorer } from '@src/util';
 import { FolderArchive } from '@src/data/archive/folder_archive';
-import { dialog } from '@tauri-apps/api';
+import { dialog, path } from '@tauri-apps/api';
 import { Button } from '@ui/button';
 import { useToast } from '@ui/use-toast';
 
@@ -19,6 +19,7 @@ export default function OpenArchiveButton() {
         }
 
         const folderPath = (archive as FolderArchive).getArchivePath();
+        Logger.info(folderPath);
         openInExplorer(folderPath)
             .then(() => {
                 toast({

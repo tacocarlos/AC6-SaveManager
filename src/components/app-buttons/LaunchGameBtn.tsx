@@ -3,10 +3,10 @@ import { Button } from '@ui/button';
 
 import { useSettings } from '@src/context/SettingsContext';
 import { Logger } from '@src/util';
-
-import barStyles from './ButtonBar.module.css';
+import { useToast } from '@ui/use-toast';
 
 export default function LaunchGameButton() {
+    const { toast } = useToast();
     const config = useSettings();
 
     async function launchGame() {
@@ -26,13 +26,17 @@ export default function LaunchGameButton() {
         }
 
         Logger.trace(`Attemping to launch ${exePath}`);
-        config.launch_game();
+        config.launch_game().then(() => {
+            toast({
+                description: `Launched ${config.exec_path}`,
+            });
+        });
     }
 
     return (
         <>
             <Button
-                className={barStyles.leftAligned + ' ' + barStyles.launchBtn}
+                className="absolute right-2 bg-green-700"
                 onClick={launchGame}>
                 Launch Game
             </Button>

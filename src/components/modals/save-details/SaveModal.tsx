@@ -21,6 +21,7 @@ type ModalTypeToggle = () => void;
 import './SaveModalStyles.css';
 import { path } from '@tauri-apps/api';
 import { useToast } from '@src/components/ui/use-toast';
+import { Button } from '@ui/button';
 
 function EditableSaveModal({
     save,
@@ -166,7 +167,7 @@ function ViewableSaveModal({
                 {save.getMetadata().getNotes()}
             </Markdown>
             <br />
-            <button onClick={typeToggle}>Edit Save</button>
+            <Button onClick={typeToggle}>Edit Save</Button>
         </>
     );
 }

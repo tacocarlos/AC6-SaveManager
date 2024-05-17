@@ -33,14 +33,22 @@ export function SaveViewer() {
     let filteredSaves: SaveData[] = [];
     const { toast } = useToast();
 
+    // TODO: memoify this later
     if (archive !== undefined) {
-        filteredSaves = archive.getSaves().filter((save) => {
-            return save
-                .getMetadata()
-                .getName()
-                .toLowerCase()
-                .includes(query.toLowerCase());
-        });
+        filteredSaves = archive
+            .getSaves()
+            .filter((save) => {
+                return save
+                    .getMetadata()
+                    .getName()
+                    .toLowerCase()
+                    .includes(query.toLowerCase());
+            })
+            .sort((s1, s2) => {
+                const s1DateStr = s1.getMetadata().getLMDate().toString();
+                const s2DateStr = s2.getMetadata().getLMDate().toString();
+                return -1 * s1DateStr.localeCompare(s2DateStr);
+            });
     }
 
     useEffect(() => {
@@ -121,9 +129,6 @@ export function SaveViewer() {
                 <ScrollArea className="bg-actualgray flex h-[calc(100vh-235px)] w-full flex-col gap-y-1 bg-opacity-30">
                     {saveItems}
                 </ScrollArea>
-                {/* <div className="bg-actualgray flex h-[calc(100vh-200px)] w-full flex-col gap-y-2 bg-opacity-25">
-                    {saveItems}
-                </div> */}
             </div>
 
             <SaveModal
