@@ -194,7 +194,8 @@ export default function SettingsModal(props: {
             <br />
             <div
                 className={`${modalStyles.sectionWrapper} ${modalStyles.execSection}`}>
-                <h2 className={`${modalStyles.archivePathHeader}`}>
+                <h2
+                    className={`${modalStyles.archivePathHeader} text-2xl text-white`}>
                     Executable Path
                 </h2>
                 <div>
@@ -219,7 +220,8 @@ export default function SettingsModal(props: {
 
             <div
                 className={`${modalStyles.archivePathListSection} ${modalStyles.sectionWrapper}`}>
-                <h2 className={`${modalStyles.archivePathHeader}`}>
+                <h2
+                    className={`${modalStyles.archivePathHeader} text-2xl text-white`}>
                     Archive Paths
                 </h2>
                 <ul className={`${modalStyles.archivePathList}`}>
@@ -232,7 +234,7 @@ export default function SettingsModal(props: {
             </div>
 
             <div className={modalStyles.sectionWrapper}>
-                <h2>Save File Location</h2>
+                <h2 className="text-2xl text-white">Save File Location</h2>
                 <br />
                 <span className={`${modalStyles.itemWrapper}`}>{saveLoc}</span>
                 <br />

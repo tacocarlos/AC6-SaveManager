@@ -8,7 +8,7 @@ import {
 } from '@src/context/modal-context/NewSaveContext';
 import { SaveDataFile } from '@src/data/save-data/SaveDataFile';
 import { useSettings } from '@context/SettingsContext';
-import { Logger, openInExplorer } from '@src/util';
+import { Logger, openFileInExplorer, openInExplorer } from '@src/util';
 import { dialog } from '@tauri-apps/api';
 import { SaveData } from '@src/data/save-data/save';
 import { FolderArchive } from '@src/data/archive/folder_archive';
@@ -111,7 +111,7 @@ export function SaveRowButtons() {
             return;
         }
         const filePath = (save as SaveDataFile).getFilePath();
-        openInExplorer(filePath);
+        openFileInExplorer(filePath);
     }
 
     const haveArchive = archiveID !== undefined;

@@ -232,6 +232,16 @@ fn open_in_explorer(path: &str) {
     return ();
 }
 
+#[tauri::command]
+fn open_file_in_explorer(path: &str) {
+    Command::new("explorer")
+        .args(["/select,",path])
+        .spawn()
+        .unwrap();
+    
+    return ();
+}
+
 fn main() {
     
     simple_logger::SimpleLogger::new().init().unwrap();
@@ -263,7 +273,7 @@ fn main() {
             is_dir, is_file, file_exists, copy,
             scan_dir_for_saves,
             get_steam_install_path, get_game_path,
-            open_in_explorer
+            open_in_explorer, open_file_in_explorer
             ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
