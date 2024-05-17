@@ -13,7 +13,7 @@ import { useManager } from '@src/context/ArchiveContext';
 
 import modalStyles from './SaveModal.module.css';
 import { SaveDataFile } from '@src/data/save-data/SaveDataFile';
-import { Logger, openInExplorer } from '@util';
+import { Logger, openFileInExplorer, openInExplorer } from '@util';
 
 type ModalType = 'editable' | 'viewable';
 type ModalTypeToggle = () => void;
@@ -22,13 +22,16 @@ import './SaveModalStyles.css';
 import { path } from '@tauri-apps/api';
 import { useToast } from '@src/components/ui/use-toast';
 import { Button } from '@ui/button';
+import PathView from '@src/components/PathView';
 
 function EditableSaveModal({
     save,
     typeToggle,
+    closeHandler,
 }: {
     save: SaveDataFile;
     typeToggle: ModalTypeToggle;
+    closeHandler: any;
 }) {
     const nameRef = useRef<HTMLInputElement>(null);
     const noteRef = useRef<HTMLTextAreaElement>(null);
@@ -79,12 +82,13 @@ function EditableSaveModal({
 
     return (
         <>
-            <h1>Edit Save File</h1>
-            <br /> <br />
+            <p className="text-3xl">Edit Save File</p>
+            <br />
             <form onSubmit={writeSaveFile} id="editSaveForm">
                 <label>
                     <span>Save Name </span>
                     <input
+                        className="pl-1 font-semibold text-black"
                         ref={nameRef}
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -115,10 +119,17 @@ function EditableSaveModal({
                         />
                     </div>
                 </label>
-                <br /> <br />
-                <button onClick={writeSaveFile} type="submit">
-                    Apply Changes
-                </button>
+                <br />
+                <div className="flex space-x-5">
+                    <Button
+                        onClick={writeSaveFile}
+                        type="submit"
+                        className="hover:bg-green-700">
+                        Apply Changes
+                    </Button>
+                    <Button onClick={typeToggle}>Cancel</Button>
+                    <Button onClick={closeHandler}>Close</Button>
+                </div>
             </form>
         </>
     );
@@ -127,37 +138,29 @@ function EditableSaveModal({
 function ViewableSaveModal({
     save,
     typeToggle,
+    closeHandler,
 }: {
     save: SaveDataFile;
     typeToggle: ModalTypeToggle;
+    closeHandler: any;
 }) {
     const { toast } = useToast();
 
+    const saveFilePath = save.getFilePath();
     return (
-        <>
-            <h1 className={modalStyles.viewHeader}>
+        <div className="flex flex-col space-y-3">
+            {/* <h1 className={modalStyles.viewHeader + ' text-3xl'}> */}
+            <p className="self-start text-3xl">
                 {save.getMetadata().getName()}
-            </h1>
-            <br />
+            </p>
             <br />
             <label>
                 {'Date Last Modified: '}
                 <span>{save.getMetadata().getLMDate().toString()}</span>
             </label>
-            <br />
-            <label>
+            <label className="flex space-x-3">
                 <span>{'Save File Path: '}</span>
-                <a
-                    onClick={() => {
-                        const filePath = save.getFilePath();
-                        toast({
-                            title: 'Opening Save Location',
-                            description: filePath,
-                        });
-                        openInExplorer(filePath);
-                    }}>
-                    {save.getFilePath()}
-                </a>
+                <PathView filePath={saveFilePath} isFile />
             </label>
 
             <Markdown
@@ -167,8 +170,11 @@ function ViewableSaveModal({
                 {save.getMetadata().getNotes()}
             </Markdown>
             <br />
-            <Button onClick={typeToggle}>Edit Save</Button>
-        </>
+            <div className="flex w-full space-x-5">
+                <Button onClick={typeToggle}>Edit Save</Button>
+                <Button onClick={closeHandler}>Close</Button>
+            </div>
+        </div>
     );
 }
 
@@ -215,11 +221,21 @@ export default function SaveModal({
             className="mx-10 mt-[calc(100vh-50%)] bg-maroon p-6 text-primary-foreground"
             // overlayClassName={modalStyles.modalOverlay}
             id="SaveModal">
-            {modalType === 'editable' ? (
-                <EditableSaveModal save={save} typeToggle={setViewable} />
-            ) : (
-                <ViewableSaveModal save={save} typeToggle={setEditable} />
-            )}
+            <div className="flex w-full flex-col">
+                {modalType === 'editable' ? (
+                    <EditableSaveModal
+                        save={save}
+                        typeToggle={setViewable}
+                        closeHandler={closeHandler}
+                    />
+                ) : (
+                    <ViewableSaveModal
+                        save={save}
+                        typeToggle={setEditable}
+                        closeHandler={closeHandler}
+                    />
+                )}
+            </div>
         </Modal>
     );
 }

@@ -158,8 +158,6 @@ fn get_game_path() -> String {
 // TODO: for now, keep the more advanced io operations in frontend since I didn't think to put them here and just call it from frontend
 //       however, will eventually move those operations to Rust (primarily `folder_archive.discover()`)
 
-
-
 #[tauri::command]
 fn scan_dir_for_saves(path: &str) -> Vec<String> {
     let dir = Path::new(path);
