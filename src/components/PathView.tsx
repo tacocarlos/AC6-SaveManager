@@ -2,11 +2,8 @@ import { openFileInExplorer, openInExplorer } from '@src/util';
 import * as tauriPath from '@tauri-apps/api/path';
 import {
     Breadcrumb,
-    BreadcrumbEllipsis,
     BreadcrumbItem,
-    BreadcrumbLink,
     BreadcrumbList,
-    BreadcrumbPage,
     BreadcrumbSeparator,
 } from '@ui/breadcrumb';
 import { Ellipsis, Slash } from 'lucide-react';

@@ -3,10 +3,8 @@ import { Button } from '@ui/button';
 
 import { useSettings } from '@src/context/SettingsContext';
 import { Logger } from '@src/util';
-import { useToast } from '@ui/use-toast';
 
 export default function LaunchGameButton() {
-    const { toast } = useToast();
     const config = useSettings();
 
     async function launchGame() {
@@ -26,11 +24,7 @@ export default function LaunchGameButton() {
         }
 
         Logger.trace(`Attemping to launch ${exePath}`);
-        config.launch_game().then(() => {
-            toast({
-                description: `Launched ${config.exec_path}`,
-            });
-        });
+        config.launch_game();
     }
 
     return (

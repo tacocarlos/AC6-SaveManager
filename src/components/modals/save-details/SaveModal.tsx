@@ -13,14 +13,12 @@ import { useManager } from '@src/context/ArchiveContext';
 
 import modalStyles from './SaveModal.module.css';
 import { SaveDataFile } from '@src/data/save-data/SaveDataFile';
-import { Logger, openFileInExplorer, openInExplorer } from '@util';
+import { Logger } from '@util';
 
 type ModalType = 'editable' | 'viewable';
 type ModalTypeToggle = () => void;
 
 import './SaveModalStyles.css';
-import { path } from '@tauri-apps/api';
-import { useToast } from '@src/components/ui/use-toast';
 import { Button } from '@ui/button';
 import PathView from '@src/components/PathView';
 
@@ -144,8 +142,6 @@ function ViewableSaveModal({
     typeToggle: ModalTypeToggle;
     closeHandler: any;
 }) {
-    const { toast } = useToast();
-
     const saveFilePath = save.getFilePath();
     return (
         <div className="flex flex-col space-y-3">

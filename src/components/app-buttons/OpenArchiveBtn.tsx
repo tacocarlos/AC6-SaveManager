@@ -3,7 +3,6 @@ import barStyles from './ButtonBar.module.css';
 import { useManager } from '@src/context/ArchiveContext';
 import { Logger, openInExplorer } from '@src/util';
 import { FolderArchive } from '@src/data/archive/folder_archive';
-import { dialog, path } from '@tauri-apps/api';
 import { Button } from '@ui/button';
 import { useToast } from '@ui/use-toast';
 

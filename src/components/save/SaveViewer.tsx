@@ -13,8 +13,6 @@ import { NewSaveModalProvider } from '@src/context/modal-context/NewSaveContext'
 import { SaveData } from '@src/data/save-data/save';
 import { Input } from '@ui/input';
 import { ScrollArea } from '@ui/scroll-area';
-import { Accordion } from '../ui/accordion';
-import { useToast } from '../ui/use-toast';
 
 export function SaveViewer() {
     const [query, setQuery] = useState('');
@@ -31,7 +29,6 @@ export function SaveViewer() {
     const save = archive?.getSave(selectedSave ?? '');
 
     let filteredSaves: SaveData[] = [];
-    const { toast } = useToast();
 
     // TODO: memoify this later
     if (archive !== undefined) {
@@ -65,12 +62,9 @@ export function SaveViewer() {
     // if the selected save is not in filtered saves, append it
     // Logger.debug(filteredSaves.join());
     const modalToggle = () => {
-        toast({
-            description: 'modal toggle',
-        });
-
         setSaveModalShow((prev) => !prev);
     };
+
     const saveItems = filteredSaves.map((save) => {
         return (
             <li
@@ -92,11 +86,6 @@ export function SaveViewer() {
             setQuery(searchRef.current.value);
         }
     }
-
-    const filteredSaveIDs = filteredSaves.map((s) => s.getMetadata().getID());
-
-    // TODO: implement a 'collapsible sync' so only one is open at a time.
-    // TODO: this is due to an accordion not really (but very close) to what I wanted for this component
 
     return (
         <div className="w-full">

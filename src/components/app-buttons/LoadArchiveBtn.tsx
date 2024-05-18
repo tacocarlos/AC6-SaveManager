@@ -5,7 +5,6 @@ import { ARCHIVE_METADATA_NAME } from '@src/data/constants/constant';
 import { Logger } from '@src/util';
 import { dialog } from '@tauri-apps/api';
 import { basename } from '@tauri-apps/api/path';
-import barStyles from './ButtonBar.module.css';
 import { Button } from '@ui/button';
 import { useToast } from '@ui/use-toast';
 

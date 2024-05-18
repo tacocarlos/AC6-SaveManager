@@ -1,5 +1,3 @@
-import barStyles from './ButtonBar.module.css';
-
 import { NewArchiveModalProvider } from '@src/context/modal-context/NewArchiveContext';
 import { SettingsModalProvider } from '@src/context/modal-context/SettingsModalContext';
 import EditConfigButton from './EditConfigBtn';

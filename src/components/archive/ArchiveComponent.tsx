@@ -11,13 +11,10 @@ export default function ArchiveComponent(props: {
         return <div></div>;
     }
 
-    const selectionStyle = props.isSelected === true ? 'bg-red-600' : '';
-    const btnStyle = 'p-10 bg-gray-600 text-center mt-10 mx-5';
-
     const content = (
         <>
             <Button
-                className={`${ArchiveStyles.vanillaArchive} ${props.isSelected === true ? ArchiveStyles.isSelected : ''} hover:bg-maroon w-52 px-1`}>
+                className={`${ArchiveStyles.vanillaArchive} ${props.isSelected === true ? ArchiveStyles.isSelected : ''} w-52 px-1 hover:bg-maroon`}>
                 {props.archive.getArchiveName()}
             </Button>
         </>

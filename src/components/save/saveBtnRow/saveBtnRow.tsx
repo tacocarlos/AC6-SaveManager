@@ -8,11 +8,10 @@ import {
 } from '@src/context/modal-context/NewSaveContext';
 import { SaveDataFile } from '@src/data/save-data/SaveDataFile';
 import { useSettings } from '@context/SettingsContext';
-import { Logger, openFileInExplorer, openInExplorer } from '@src/util';
+import { Logger, openFileInExplorer } from '@src/util';
 import { dialog } from '@tauri-apps/api';
 import { SaveData } from '@src/data/save-data/save';
 import { FolderArchive } from '@src/data/archive/folder_archive';
-import { useToast } from '@ui/use-toast';
 
 export function SaveRowButtons() {
     const selectedSave = useSelectedSave();
@@ -21,7 +20,6 @@ export function SaveRowButtons() {
     const setMager = useManagerUpdate();
     const archive = manager.getArchive(archiveID);
     const config = useSettings();
-    const { toast } = useToast();
 
     const showNewSaveModal = useShowNewSaveModal();
     const setNewSaveModalType = useSetNewSaveModalType();

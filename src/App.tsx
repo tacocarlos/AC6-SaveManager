@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import appStyles from './App.module.css';
 import AppHeader from './components/app-header/header';
-import { Logger, cn } from '@util';
+import { Logger } from '@util';
 import ArchiveViewer from './components/archive/window/ArchiveViewer';
 import { SaveViewer } from '@components/save/SaveViewer';
 import { useSelectedArchive } from '@context/SelectedContext';
@@ -10,7 +9,6 @@ import { ButtonBar } from './components/app-buttons/ButtonBar';
 import { useSettings } from '@context/SettingsContext';
 
 import { dialog } from '@tauri-apps/api';
-import { Button } from '@ui/button';
 import { Toaster } from '@ui/toaster';
 import { useToast } from '@ui/use-toast';
 

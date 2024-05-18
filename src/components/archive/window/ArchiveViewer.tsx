@@ -1,5 +1,4 @@
 import ArchiveComponent from '../ArchiveComponent';
-import archiveStyles from './ArchiveViewer.module.css';
 import { Logger } from '@util';
 import { useManager } from '@context/ArchiveContext';
 import {
