@@ -201,8 +201,6 @@ export default function SaveModal({
 
     if (save === undefined) return <></>;
 
-    // TODO: Have edit button to switch between <Markdown> and <input>
-
     function closeHandler() {
         setViewable();
         modalClose();

@@ -6,13 +6,34 @@ import {
 } from '@context/SelectedContext';
 import { useManager } from '@context/ArchiveContext';
 import { SaveRowButtons } from './saveBtnRow/saveBtnRow';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SaveEntry } from './save-entry/SaveEntry';
 import SaveModal from '../modals/save-details/SaveModal';
 import { NewSaveModalProvider } from '@src/context/modal-context/NewSaveContext';
 import { SaveData } from '@src/data/save-data/save';
 import { Input } from '@ui/input';
 import { ScrollArea } from '@ui/scroll-area';
+import { Archive } from '@src/data/archive/archive';
+
+function getSaves(archive?: Archive, query?: string) {
+    if (archive === undefined) return [];
+
+    query = query ?? '';
+    return archive
+        .getSaves()
+        .filter((save) => {
+            return save
+                .getMetadata()
+                .getName()
+                .toLowerCase()
+                .includes(query.toLowerCase());
+        })
+        .sort((s1, s2) => {
+            const s1Date = s1.getMetadata().getLMDate().toString();
+            const s2Date = s2.getMetadata().getLMDate().toString();
+            return -1 * s1Date.localeCompare(s2Date);
+        });
+}
 
 export function SaveViewer() {
     const [query, setQuery] = useState('');
@@ -28,25 +49,14 @@ export function SaveViewer() {
 
     const save = archive?.getSave(selectedSave ?? '');
 
-    let filteredSaves: SaveData[] = [];
+    let filteredSaves: SaveData[] = React.useMemo(
+        () => getSaves(archive, query),
+        [archive, archive?.getSaves(), query]
+    );
 
-    // TODO: memoify this later
-    if (archive !== undefined) {
-        filteredSaves = archive
-            .getSaves()
-            .filter((save) => {
-                return save
-                    .getMetadata()
-                    .getName()
-                    .toLowerCase()
-                    .includes(query.toLowerCase());
-            })
-            .sort((s1, s2) => {
-                const s1DateStr = s1.getMetadata().getLMDate().toString();
-                const s2DateStr = s2.getMetadata().getLMDate().toString();
-                return -1 * s1DateStr.localeCompare(s2DateStr);
-            });
-    }
+    const filteredIDs = new Set(
+        filteredSaves.map((save) => save.getMetadata().getID())
+    );
 
     useEffect(() => {
         if (selectedSave === undefined) {
@@ -59,8 +69,19 @@ export function SaveViewer() {
         }
     }, [selectedSave]);
 
-    // if the selected save is not in filtered saves, append it
-    // Logger.debug(filteredSaves.join());
+    const addSelectedSave = () => {
+        if (selectedSave !== undefined && archive != undefined) {
+            const save = archive.getSave(selectedSave);
+            if (save !== undefined) {
+                filteredSaves = [save, ...filteredSaves];
+            }
+        }
+    };
+
+    if (!filteredIDs.has(selectedSave ?? '')) {
+        addSelectedSave();
+    }
+
     const modalToggle = () => {
         setSaveModalShow((prev) => !prev);
     };
