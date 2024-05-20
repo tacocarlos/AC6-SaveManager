@@ -38,17 +38,11 @@ Another thing to note is there are can also be many files present in the save da
 ## TODO
 Need to have the following buttons for `Archive` ROW:
 - Export Archive (maybe from zip, later feature)
-- Import Archive (maybe from zip, later feature)
-- Delete Archive (ask for confirmation, later feature)
+- Import Archive from a zip file
 - Clone Archive (later feature)
-- Create New Archive
-- Settings Menu? Either that or more buttons, { Set Exec Path, Add Archive Base file, Set game as offline/online }
-- Run Game
 
 Within `Save` view, need:
 - Import Save (zip)
 - Export Save (zip)
-- Move Save (later feature)
+- Move save to another archive
 - Clone Save
-- Set Save as active
-- Backup current active save in Archive
